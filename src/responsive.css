@@ -1,0 +1,32 @@
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .grid-item:nth-child(1) {
+    grid-row: auto;
+    grid-column: auto;
+  }
+
+  .grid-item:nth-child(n + 2) {
+    grid-row: auto;
+  }
+}
+
+@media only screen and (max-width: 564px) {
+  .grid-item:nth-child(1) {
+    grid-column: auto;
+  }
+}
