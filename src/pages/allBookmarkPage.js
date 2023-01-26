@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+
 import { MenuBar } from "../app/menuBar";
-import { Card } from "../assets/card";
 import { Loading } from "../assets/loading";
+import Bookmark from "../components/bookmark/bookmark";
 
 export const AllBookmarkPage = () => {
-  const { bookmark, orderBy } = useSelector((state) => state.app);
+  const { orderBy } = useSelector((state) => state.app);
+  const { bookmark } = useSelector((state) => state.bookmark);
+
   const [loading, setLoading] = useState(false);
   const data = [...bookmark];
 
@@ -31,17 +34,7 @@ export const AllBookmarkPage = () => {
     <>
       <MenuBar title={"All bookmark"} noViewBookmark />
       {orderedData.length > 0 ? (
-        <div className="grid-container">
-          {orderedData.map((v, k) => (
-            <Card
-              key={k}
-              normal
-              title={v.webTitle}
-              imgUrl={v.fields?.thumbnail}
-              articleUrl={v.apiUrl}
-            />
-          ))}
-        </div>
+        <Bookmark orderedData={orderedData} />
       ) : !loading ? (
         <NoData />
       ) : (

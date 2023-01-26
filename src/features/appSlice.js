@@ -1,12 +1,10 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 export const appSlice = createSlice({
-  name: "seven_peaks",
+  name: "app",
   initialState: {
     orderBy: "newest",
     searchText: "",
-    articleObj: undefined,
-    bookmark: [],
     searchType: "all",
   },
 
@@ -17,18 +15,6 @@ export const appSlice = createSlice({
     changeOrder: (state, action) => {
       state.orderBy = action.payload;
     },
-    updateArticleObj: (state, action) => {
-      state.articleObj = action.payload;
-    },
-    addBookMark: (state, action) => {
-      state.bookmark.push(action.payload);
-    },
-    removeBookMark: (state, action) => {
-      const index = state.bookmark.findIndex(
-        (v) => v.apiUrl === action.payload
-      );
-      state.bookmark.splice(index, 1);
-    },
     changeSearchType: (state, action) => {
       state.searchType = action.payload;
     },
@@ -38,9 +24,6 @@ export const appSlice = createSlice({
 export const {
   changeText,
   changeOrder,
-  addBookMark,
-  updateArticleObj,
-  removeBookMark,
   changeSearchType,
 } = appSlice.actions;
 

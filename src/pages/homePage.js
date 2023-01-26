@@ -1,29 +1,32 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateSportData, updateTopStories } from "../features/homeSlice.js";
 
-import { Card } from "../assets/card.js";
 import { MenuBar } from "../app/menuBar";
 import { fetchNews, fetchSport } from "../middleware/fetchNews.js";
 import { Loading } from "../assets/loading.js";
+import TopStories from "../components/home/topStories.js";
+import Sports from "../components/home/sports.js";
 
 export const HomePage = () => {
-  const [sportData, setSportData] = useState(null);
-  const [topStories, setTopStories] = useState(null);
+  const { topStories, sportData } = useSelector((state) => state.home);
   const { orderBy } = useSelector((state) => state.app);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setSportData(null);
-    setTopStories(null)
+    dispatch(updateTopStories(null));
+    dispatch(updateSportData(null));
+
     fetchNews(orderBy, (data, err) => {
       if (data) {
-        setTopStories(data);
+        dispatch(updateTopStories(data));
       } else {
         console.log(err);
       }
     });
     fetchSport(orderBy, (data, err) => {
       if (data) {
-        setSportData(data);
+        dispatch(updateSportData(data));
       } else {
         console.log(err);
       }
@@ -35,43 +38,8 @@ export const HomePage = () => {
       <MenuBar title={"Top stories"} />
       {sportData && topStories ? (
         <>
-          <div className="grid-container">
-            {topStories?.slice(0, 5).map((v, k) => (
-              <Card
-                key={k}
-                title={v.webTitle}
-                imgUrl={v.fields?.thumbnail}
-                titleCard={k >= 3}
-                articleUrl={v.apiUrl}
-                body={k===0?v.blocks.body[0].bodyTextSummary:undefined}
-              />
-            ))}
-          </div>
-          <div className="grid-container">
-            {topStories?.slice(5, 8).map((v, k) => (
-              <Card
-                key={k}
-                title={v.webTitle}
-                imgUrl={v.fields?.thumbnail}
-                body={v.blocks.body[0].bodyTextSummary}
-
-                articleUrl={v.apiUrl}
-                normal
-              />
-            ))}
-          </div>
-          <div className="sub-title">Sports</div>
-          <div className="grid-container">
-            {sportData?.map((v, k) => (
-              <Card
-                key={k}
-                title={v.webTitle}
-                imgUrl={v.fields?.thumbnail}
-                articleUrl={v.apiUrl}
-                normal
-              />
-            ))}
-          </div>
+          <TopStories topStories={topStories} />
+          <Sports sportData={sportData} />
         </>
       ) : (
         <Loading />

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import BookMark from "../assets/images/bookmarkon-icon@2x.svg";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addBookMark, changeOrder, changeSearchType, removeBookMark } from "../features/appSlice";
+import { changeOrder, changeSearchType } from "../features/appSlice";
+import { removeBookmark, addBookmark } from "../features/bookmarkSlice";
 
 export const MenuBar = ({ noViewBookmark, title, noDropDown, button }) => {
   return (
@@ -47,10 +48,10 @@ const Dropdown = () => {
 
 const BookMarkButton = () => {
   const navigate = useNavigate();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
 
   const _handleVeiwBookmark = () => {
-    dispatch(changeSearchType("bookmark"))
+    dispatch(changeSearchType("bookmark"));
     navigate("/all-bookmarks");
   };
 
@@ -70,13 +71,15 @@ const BookMarkButton = () => {
 const AddBookMarkButton = () => {
   const dispatch = useDispatch();
   const articleUrl = localStorage.getItem("articleUrl");
-  const { bookmark,articleObj } = useSelector((state) => state.app);
+  const { articleObj } = useSelector((state) => state.article);
+  const { bookmark } = useSelector((state) => state.bookmark);
+
   const isBookmark = bookmark?.some((v) => v.apiUrl === articleUrl);
 
   return isBookmark ? (
     <button
       className="button-bookmark cursor-pointer"
-      onClick={() => dispatch(removeBookMark(articleUrl))}
+      onClick={() => dispatch(removeBookmark(articleUrl))}
     >
       <img className="icon-bookmark" src={BookMark} alt="bookmark" />
       <span>REMOVE BOOKMARK</span>
@@ -84,7 +87,7 @@ const AddBookMarkButton = () => {
   ) : (
     <button
       className="button-bookmark cursor-pointer"
-      onClick={() => dispatch(addBookMark( articleObj))}
+      onClick={() => dispatch(addBookmark(articleObj))}
     >
       <img className="icon-bookmark" src={BookMark} alt="bookmark" />
       <span>ADD BOOKMARK</span>

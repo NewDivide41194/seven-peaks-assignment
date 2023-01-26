@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+
 import { MenuBar } from "../app/menuBar";
 import { Card } from "../assets/card";
 import { fetchSearchNews } from "../middleware/fetchNews";
@@ -62,6 +63,7 @@ export const SearchResultPage = () => {
       <div className="grid-container-1">
         {searchResult?.map((v, k) => (
           <Card
+            key={k}
             title={v.webTitle}
             imgUrl={v.fields?.thumbnail}
             body={v.body}
