@@ -11,18 +11,28 @@ export const SearchResultPage = () => {
   const [loading, setLoading] = useState(false);
   const { searchText, orderBy } = useSelector((state) => state.app);
 
+  // fetch data and update search result
   useEffect(() => {
-    fetchResult(page);
-  }, [page]);
-
-  useEffect(() => {
-    setSearchResult([]);
     fetchResult(page);
   }, [searchText, orderBy]);
 
   const fetchResult = (page) => {
     setLoading(true);
+    fetchSearchNews(searchText, orderBy, page, (data, err) => {
+      if (data) {
+        setSearchResult(data);
+        setLoading(false);
+      } else console.log(err);
+    });
+  };
 
+  // fetch and add more result by page change
+  useEffect(() => {
+    fetchMoreResult(page);
+  }, [page]);
+
+  const fetchMoreResult = (page) => {
+    setLoading(true);
     fetchSearchNews(searchText, orderBy, page, (data, err) => {
       if (data) {
         setSearchResult(searchResult.concat(data));
@@ -31,6 +41,7 @@ export const SearchResultPage = () => {
     });
   };
 
+  // add page number at end of scroll
   const onScroll = () => {
     const scrollTop = document.documentElement.scrollTop;
     const scrollHeight = document.documentElement.scrollHeight;
@@ -48,7 +59,7 @@ export const SearchResultPage = () => {
   return (
     <>
       <MenuBar title={"Search Result"} />
-      <div className="grid-container">
+      <div className="grid-container-1">
         {searchResult?.map((v, k) => (
           <Card
             title={v.webTitle}

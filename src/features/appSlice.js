@@ -1,7 +1,7 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 
 export const appSlice = createSlice({
-  name: "seven_peek",
+  name: "seven_peaks",
   initialState: {
     orderBy: "newest",
     searchText: "",

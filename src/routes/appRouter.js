@@ -6,7 +6,7 @@ import BookmarkSearchResult from "../components/bookmark/bookmarkSearchResult";
 
 function AppRouter() {
   const { searchText,searchType } = useSelector((state) => state.app);
-console.log(searchType);
+
   return (
     <BrowserRouter>
       <NavBar />

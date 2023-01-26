@@ -11,6 +11,7 @@ export const ArticlePage = () => {
 
   const dispatch=useDispatch()
   useEffect(() => {
+    dispatch(updateArticleObj(undefined));
     fetchArticle(articleUrl, (data, err) => {
       if (data) {
         dispatch(updateArticleObj(data));
